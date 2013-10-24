@@ -1,39 +1,35 @@
 #!/bin/sh
 #
-# qemu configure script (c) 2003 Fabrice Bellard
+# qemu-NP configure script 2013
+# By YJBeetle
+# Thanks Fabrice Bellard
 #
-# set temporary file name
-if test ! -z "$TMPDIR" ; then
-    TMPDIR1="${TMPDIR}"
-elif test ! -z "$TEMPDIR" ; then
-    TMPDIR1="${TEMPDIR}"
-else
-    TMPDIR1="/tmp"
-fi
 
-TMPC="${TMPDIR1}/qemu-conf-${RANDOM}-$$-${RANDOM}.c"
-TMPO="${TMPDIR1}/qemu-conf-${RANDOM}-$$-${RANDOM}.o"
-TMPE="${TMPDIR1}/qemu-conf-${RANDOM}-$$-${RANDOM}"
-TMPS="${TMPDIR1}/qemu-conf-${RANDOM}-$$-${RANDOM}.S"
-TMPI="${TMPDIR1}/qemu-conf-${RANDOM}-$$-${RANDOM}.i"
-TMPSDLLOG="${TMPDIR1}/qemu-conf-sdl-$$-${RANDOM}.log"
+TMPDIR="/tmp"
+TMPC="${TMPDIR}/qemu-NP-conf-${RANDOM}-$$-${RANDOM}.c"
+TMPO="${TMPDIR}/qemu-NP-conf-${RANDOM}-$$-${RANDOM}.o"
+TMPE="${TMPDIR}/qemu-NP-conf-${RANDOM}-$$-${RANDOM}"
+TMPS="${TMPDIR}/qemu-NP-conf-${RANDOM}-$$-${RANDOM}.S"
+TMPI="${TMPDIR}/qemu-NP-conf-${RANDOM}-$$-${RANDOM}.i"
+TMPSDLLOG="${TMPDIR}/qemu-NP-conf-sdl-$$-${RANDOM}.log"
 
 trap "rm -f $TMPC $TMPO $TMPE $TMPS $TMPI $TMPSDLLOG; exit" 0 2 3 15
 
 # default parameters
 prefix=""
 interp_prefix="/usr/gnemul/qemu-%M"
-static="no"
+static="yes"
 cross_prefix=""
 cc="gcc"
+host_cc="gcc"
 audio_drv_list=""
 audio_card_list="ac97 es1370 sb16"
 audio_possible_cards="ac97 es1370 sb16 cs4231a adlib gus"
-host_cc="gcc"
 ar="ar"
 make="make"
 install="install"
 strip="strip"
+target_list="mipsel-softmmu"
 
 # parse CC options first
 for opt do
@@ -437,7 +433,6 @@ for opt do
   ;;
   esac
 done
-target_list="mipsel-softmmu"
 
 # default flags for all hosts
 CFLAGS="$CFLAGS -O2 -g -fno-strict-aliasing"
@@ -488,66 +483,132 @@ case "$cpu" in
 esac
 
 if test x"$show_help" = x"yes" ; then
-cat << EOF
+  echo "Please select a language:"
+  echo "	1.English"
+  echo "	2.中文"
+  read REPLY
+  if [ "$REPLY" = "1" ]; then
+    cat << EOF
 
 Usage: configure [options]
 Options: [defaults in brackets after descriptions]
 
 EOF
-echo "Standard options:"
-echo "  --help                   print this message"
-echo "  --prefix=PREFIX          install in PREFIX [$prefix]"
-echo "  --interp-prefix=PREFIX   where to find shared libraries, etc."
-echo "                           use %M for cpu name [$interp_prefix]"
-echo "  --target-list=LIST       set target list [$target_list]"
-echo ""
-echo "kqemu kernel acceleration support:"
-echo "  --disable-kqemu          disable kqemu support"
-echo ""
-echo "Advanced options (experts only):"
-echo "  --source-path=PATH       path of source code [$source_path]"
-echo "  --cross-prefix=PREFIX    use PREFIX for compile tools [$cross_prefix]"
-echo "  --cc=CC                  use C compiler CC [$cc]"
-echo "  --host-cc=CC             use C compiler CC [$host_cc] for dyngen etc."
-echo "  --make=MAKE              use specified make [$make]"
-echo "  --install=INSTALL        use specified install [$install]"
-echo "  --static                 enable static build [$static]"
-echo "  --enable-sparse          enable sparse checker"
-echo "  --disable-sparse         disable sparse checker (default)"
-echo "  --disable-werror         disable compilation abort on warning"
-echo "  --disable-sdl            disable SDL"
-echo "  --enable-cocoa           enable COCOA (Mac OS X only)"
-echo "  --audio-drv-list=LIST    set audio drivers list:"
-echo "                           Available drivers: $audio_possible_drivers"
-echo "  --audio-card-list=LIST   set list of emulated audio cards [$audio_card_list]"
-echo "                           Available cards: $audio_possible_cards"
-echo "  --enable-mixemu          enable mixer emulation"
-echo "  --disable-brlapi         disable BrlAPI"
-echo "  --disable-vnc-tls        disable TLS encryption for VNC server"
-echo "  --disable-curses         disable curses output"
-echo "  --disable-bluez          disable bluez stack connectivity"
-echo "  --disable-kvm            disable KVM acceleration support"
-echo "  --disable-nptl           disable usermode NPTL support"
-echo "  --enable-system          enable all system emulation targets"
-echo "  --disable-system         disable all system emulation targets"
-echo "  --enable-linux-user      enable all linux usermode emulation targets"
-echo "  --disable-linux-user     disable all linux usermode emulation targets"
-echo "  --enable-darwin-user     enable all darwin usermode emulation targets"
-echo "  --disable-darwin-user    disable all darwin usermode emulation targets"
-echo "  --enable-bsd-user        enable all BSD usermode emulation targets"
-echo "  --disable-bsd-user       disable all BSD usermode emulation targets"
-echo "  --fmod-lib               path to FMOD library"
-echo "  --fmod-inc               path to FMOD includes"
-echo "  --oss-lib                path to OSS library"
-echo "  --enable-uname-release=R Return R for uname -r in usermode emulation"
-echo "  --sparc_cpu=V            Build qemu for Sparc architecture v7, v8, v8plus, v8plusa, v9"
-echo "  --disable-vde            disable support for vde network"
-echo "  --disable-aio            disable AIO support"
-echo "  --disable-blobs          disable installing provided firmware blobs"
-echo "  --kerneldir=PATH         look for kernel includes in PATH"
-echo ""
-echo "NOTE: The object files are built at the place where configure is launched"
-exit 1
+    echo "Standard options:"
+    echo "  --help                   print this message"
+    echo "  --prefix=PREFIX          install in PREFIX [$prefix]"
+    echo "  --interp-prefix=PREFIX   where to find shared libraries, etc."
+    echo "                           use %M for cpu name [$interp_prefix]"
+    echo ""
+    echo "kqemu kernel acceleration support:"
+    echo "  --disable-kqemu          disable kqemu support"
+    echo ""
+    echo "Advanced options (experts only):"
+    echo "  --source-path=PATH       path of source code [$source_path]"
+    echo "  --cross-prefix=PREFIX    use PREFIX for compile tools [$cross_prefix]"
+    echo "  --cc=CC                  use C compiler CC [$cc]"
+    echo "  --host-cc=CC             use C compiler CC [$host_cc] for dyngen etc."
+    echo "  --make=MAKE              use specified make [$make]"
+    echo "  --install=INSTALL        use specified install [$install]"
+    echo "  --static                 enable static build [$static]"
+    echo "  --enable-sparse          enable sparse checker"
+    echo "  --disable-sparse         disable sparse checker (default)"
+    echo "  --disable-werror         disable compilation abort on warning"
+    echo "  --disable-sdl            disable SDL"
+    echo "  --enable-cocoa           enable COCOA (Mac OS X only)"
+    echo "  --audio-drv-list=LIST    set audio drivers list:"
+    echo "                           Available drivers: $audio_possible_drivers"
+    echo "  --audio-card-list=LIST   set list of emulated audio cards [$audio_card_list]"
+    echo "                           Available cards: $audio_possible_cards"
+    echo "  --enable-mixemu          enable mixer emulation"
+    echo "  --disable-brlapi         disable BrlAPI"
+    echo "  --disable-vnc-tls        disable TLS encryption for VNC server"
+    echo "  --disable-curses         disable curses output"
+    echo "  --disable-bluez          disable bluez stack connectivity"
+    echo "  --disable-kvm            disable KVM acceleration support"
+    echo "  --disable-nptl           disable usermode NPTL support"
+    echo "  --enable-system          enable all system emulation targets"
+    echo "  --disable-system         disable all system emulation targets"
+    echo "  --enable-linux-user      enable all linux usermode emulation targets"
+    echo "  --disable-linux-user     disable all linux usermode emulation targets"
+    echo "  --enable-darwin-user     enable all darwin usermode emulation targets"
+    echo "  --disable-darwin-user    disable all darwin usermode emulation targets"
+    echo "  --enable-bsd-user        enable all BSD usermode emulation targets"
+    echo "  --disable-bsd-user       disable all BSD usermode emulation targets"
+    echo "  --fmod-lib               path to FMOD library"
+    echo "  --fmod-inc               path to FMOD includes"
+    echo "  --oss-lib                path to OSS library"
+    echo "  --enable-uname-release=R Return R for uname -r in usermode emulation"
+    echo "  --sparc_cpu=V            Build qemu for Sparc architecture v7, v8, v8plus, v8plusa, v9"
+    echo "  --disable-vde            disable support for vde network"
+    echo "  --disable-aio            disable AIO support"
+    echo "  --disable-blobs          disable installing provided firmware blobs"
+    echo "  --kerneldir=PATH         look for kernel includes in PATH"
+    echo ""
+    echo "NOTE: The object files are built at the place where configure is launched"
+  elif [ "$REPLY" = "2" ]; then
+    cat << EOF
+
+用法： 配置 [选项]
+选项： [默认值在说明后面的括号中]
+
+EOF
+    echo "标准选项："
+    echo "  --help                   显示这条文字"
+    echo "  --prefix=PREFIX          安装在何处 [$prefix]"
+    echo "  --interp-prefix=PREFIX   在这里可以找到共享库，等等。"
+    echo "                           使用%M作为CPU名字 [$interp_prefix]"
+    echo ""
+    echo "KQEMU内核加速支持："
+    echo "  --disable-kqemu          禁用KQEMU支持"
+    echo ""
+    echo "高级选项（专家）："
+    echo "  --source-path=PATH       源代码的路径 [$source_path]"
+    echo "  --cross-prefix=PREFIX    为编译工具指定路径 [$cross_prefix]"
+    echo "  --cc=CC                  指定使用何种C编译器 [$cc]"
+    echo "  --host-cc=CC             指定使用何种C编译器 [$host_cc] 为dyngen动态翻译技术等等。"
+    echo "  --make=MAKE              使用指定的make [$make]"
+    echo "  --install=INSTALL        使用指定的install [$install]"
+    echo "  --static                 启用静态编译 [$static]"
+    echo "  --enable-sparse          enable sparse checker"
+    echo "  --disable-sparse         disable sparse checker (default)"
+    echo "  --disable-werror         禁用警告时编译中止"
+    echo "  --disable-sdl            禁用SDL"
+    echo "  --enable-cocoa           启用COCOA (只有Mac OS X系统)"
+    echo "  --audio-drv-list=LIST    设置音频驱动列表："
+    echo "                           可用的驱动： $audio_possible_drivers"
+    echo "  --audio-card-list=LIST   设置模拟声卡的列表 [$audio_card_list]"
+    echo "                           可用的声卡： $audio_possible_cards"
+    echo "  --enable-mixemu          启用模拟合成器"
+    echo "  --disable-brlapi         disable BrlAPI"
+    echo "  --disable-vnc-tls        disable TLS encryption for VNC server"
+    echo "  --disable-curses         disable curses output"
+    echo "  --disable-bluez          disable bluez stack connectivity"
+    echo "  --disable-kvm            disable KVM acceleration support"
+    echo "  --disable-nptl           disable usermode NPTL support"
+    echo "  --enable-system          enable all system emulation targets"
+    echo "  --disable-system         disable all system emulation targets"
+    echo "  --enable-linux-user      enable all linux usermode emulation targets"
+    echo "  --disable-linux-user     disable all linux usermode emulation targets"
+    echo "  --enable-darwin-user     enable all darwin usermode emulation targets"
+    echo "  --disable-darwin-user    disable all darwin usermode emulation targets"
+    echo "  --enable-bsd-user        enable all BSD usermode emulation targets"
+    echo "  --disable-bsd-user       disable all BSD usermode emulation targets"
+    echo "  --fmod-lib               path to FMOD library"
+    echo "  --fmod-inc               path to FMOD includes"
+    echo "  --oss-lib                path to OSS library"
+    echo "  --enable-uname-release=R Return R for uname -r in usermode emulation"
+    echo "  --sparc_cpu=V            Build qemu for Sparc architecture v7, v8, v8plus, v8plusa, v9"
+    echo "  --disable-vde            disable support for vde network"
+    echo "  --disable-aio            disable AIO support"
+    echo "  --disable-blobs          disable installing provided firmware blobs"
+    echo "  --kerneldir=PATH         look for kernel includes in PATH"
+    echo ""
+    echo "NOTE: The object files are built at the place where configure is launched"
+  else
+    echo "Enter is wrong"
+  fi
+  exit 1
 fi
 
 if test "$mingw32" = "yes" ; then
