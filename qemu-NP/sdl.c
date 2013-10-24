@@ -243,12 +243,16 @@ static void sdl_update_caption(void)
             status = " - Press Ctrl-Alt-Shift to exit grab";
     }
 
-    if (qemu_name)
-        snprintf(buf, sizeof(buf), "QEMU (%s)%s", qemu_name, status);
-    else
-        snprintf(buf, sizeof(buf), "QEMU%s", status);
+//    if (qemu_name)
+//        snprintf(buf, sizeof(buf), "QEMU (%s)%s", qemu_name, status);
+//    else
+//        snprintf(buf, sizeof(buf), "QEMU%s", status);
 
-    SDL_WM_SetCaption(buf, "QEMU");
+//    SDL_WM_SetCaption(buf, "QEMU");
+    
+    snprintf(buf, sizeof(buf), "VirtualNoah NP1100");
+
+    SDL_WM_SetCaption(buf, "VirtualNoah NP1100");
 }
 
 static void sdl_hide_cursor(void)
@@ -258,9 +262,9 @@ static void sdl_hide_cursor(void)
 
     if (kbd_mouse_is_absolute()) {
         SDL_ShowCursor(1);
-        SDL_SetCursor(sdl_cursor_hidden);
+//        SDL_SetCursor(sdl_cursor_hidden);
     } else {
-        SDL_ShowCursor(0);
+//        SDL_ShowCursor(0);
     }
 }
 
