@@ -344,8 +344,6 @@ for opt do
   ;;
   --cpu=*) cpu="$optarg"
   ;;
-  --target-list=*) target_list="$optarg"
-  ;;
   --enable-gprof) gprof="yes"
   ;;
   --static) static="yes"
@@ -439,6 +437,7 @@ for opt do
   ;;
   esac
 done
+target_list="mipsel-softmmu"
 
 # default flags for all hosts
 CFLAGS="$CFLAGS -O2 -g -fno-strict-aliasing"
