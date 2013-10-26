@@ -1,0 +1,117 @@
+MAKE = make
+CP = cp
+
+all :
+	$(MAKE) -C qemu-NP/
+	$(MAKE) -C u-boot-1.1.6-NP1100/
+	$(MAKE) -C linux-2.6.24.3-NP1100 "uImage"
+	$(MAKE) -C yaffs2/utils/
+	$(MAKE) -C nandflash/
+	$(MAKE) bin/VirtualNoah bin/np1100.bin bin/sdcard.bin
+
+run : bin/VirtualNoah bin/np1100.bin bin/sdcard.bin
+	./bin/VirtualNoah -M pavo -cpu jz4740 -mtdblock ./bin/np1100.bin -sd ./bin/sdcard.bin -net nic
+	#-tftp ./tftp/
+
+bin/VirtualNoah : qemu-NP/mipsel-softmmu/qemu-system-mipsel
+	mkdir -p bin
+	rm -rf bin/VirtualNoah
+	cp qemu-NP/mipsel-softmmu/qemu-system-mipsel bin/VirtualNoah
+
+bin/np1100.bin : bin/pavo_nandflash u-boot-1.1.6-NP1100/u-boot-nand.bin fs/Serial linux-2.6.24.3-NP1100/arch/mips/boot/uImage fs/rootfs.yaffs2 fs/Settings.yaffs2 fs/ProgramFS.yaffs2 fs/DataFS.yaffs2 fs/UsrFS.yaffs2 fs/UsrDisk.yaffs2
+	mkdir -p bin
+	bin/pavo_nandflash \
+	--NAND_Flash \
+		bin/np1100.bin \
+	--U_boot \
+		u-boot-1.1.6-NP1100/u-boot-nand.bin \
+		0x00000000 \
+		0x00200000 \
+		0 \
+	--Serial \
+		fs/Serial \
+		0x00200000 \
+		0x00400000 \
+		0 \
+	--Kernel \
+		linux-2.6.24.3-NP1100/arch/mips/boot/uImage \
+		0x00400000 \
+		0x00600000 \
+		0 \
+	--ROOT_FS \
+		fs/rootfs.yaffs2 \
+		0x00600000 \
+		0x01800000 \
+		1 \
+		0 \
+	--Settings \
+		fs/Settings.yaffs2 \
+		0x01800000 \
+		0x02300000 \
+		1 \
+		0 \
+	--Program_FS \
+		fs/ProgramFS.yaffs2 \
+		0x02300000 \
+		0x0cd00000 \
+		1 \
+		0 \
+	--Data_FS \
+		fs/DataFS.yaffs2 \
+		0x0cd00000 \
+		0x15900000 \
+		1 \
+		0 \
+	--User_FS \
+		fs/UsrFS.yaffs2 \
+		0x15900000 \
+		0x16500000 \
+		1 \
+		0 \
+	--User_Disk \
+		fs/UsrDisk.yaffs2 \
+		0x16500000 \
+		0x40000000 \
+		1 \
+		0 
+	chmod 777 bin/np1100.bin
+
+bin/pavo_nandflash : nandflash/pavo_nandflash
+	mkdir -p bin
+	rm -rf bin/pavo_nandflash
+	cp nandflash/pavo_nandflash bin/pavo_nandflash
+
+fs/rootfs.yaffs2 : bin/mkyaffs2image ./fs/rootfs/
+	bin/mkyaffs2image 1 fs/rootfs fs/rootfs.yaffs2
+
+fs/UsrDisk.yaffs2 : bin/mkyaffs2image ./fs/UsrDisk/
+	bin/mkyaffs2image 1 fs/UsrDisk fs/UsrDisk.yaffs2
+
+bin/mkyaffs2image : yaffs2/utils/mkyaffs2image
+	mkdir -p bin
+	rm -rf bin/mkyaffs2image
+	cp yaffs2/utils/mkyaffs2image bin/mkyaffs2image
+
+bin/sdcard.bin :
+	mkdir -p bin
+	dd if=/dev/zero of=./bin/sdcard.bin bs=1M count=256
+
+clean :
+	rm -rf bin/np1100.bin bin/sdcard.bin bin/VirtualNoah
+	rm -rf fs/rootfs.yaffs2 fs/UsrDisk.yaffs2
+#	rm -rf bin/*
+	$(MAKE) -C ./qemu-NP/ "clean"
+	$(MAKE) -C ./u-boot-1.1.6-NP1100/ "clean"
+	$(MAKE) -C ./linux-2.6.24.3-NP1100/ "clean"
+	$(MAKE) -C ./yaffs2/utils/ "clean"
+	$(MAKE) -C ./nandflash/ "clean"
+
+linuxcfg :
+	$(MAKE) -C ./linux-2.6.24.3-NP1100/ "menuconfig"
+	
+ubootcfg :
+	kate  ./u-boot-1.1.6-NP1100/include/configs/pavo.h
+
+tar :
+	$(MAKE) "clean"
+	cd ..;tar jcvf ./VirtualNoah-NP1100.$(shell date +%y%m%d%H%M).tar.bz2 ./VirtualNoah-NP1100/
