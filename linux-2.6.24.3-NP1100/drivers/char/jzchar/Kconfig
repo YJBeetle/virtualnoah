@@ -1,0 +1,70 @@
+#
+# JzSOC char devices configuration
+#
+
+menu "JZSOC char device support"
+	depends on SOC_JZ4740 || SOC_JZ4730 || SOC_JZ4750 || SOC_JZ4750D
+
+config JZCHAR
+	tristate 'JzSOC char device support'
+
+config JZ_CAMERA_SENSOR
+	bool
+
+config JZ_CIM
+	tristate 'JzSOC Camera Interface Module (CIM) support'
+	depends on JZCHAR
+	select JZ_CAMERA_SENSOR
+
+config JZ_TPANEL_ATA2508
+	tristate 'JzSOC MPEG4 TOUCH PANEL ATA2508 support'
+	depends on JZCHAR
+
+config JZ_TPANEL
+	tristate 'JzSOC touchpanel driver support' 
+	depends on JZCHAR
+#	select JZ_SADC if SOC_JZ4740
+#	select JZ_TPANEL_AK4182 if SOC_JZ4730
+
+choice
+	prompt "Touch Panel ADC type"
+	depends on JZ_TPANEL
+	default JZ_SADC if SOC_JZ4740 || SOC_JZ4750 || SOC_JZ4750D
+	default JZ_TPANEL_AK4182 if SOC_JZ4730
+
+config JZ_SADC
+	bool 'Select the JZ47XX internal SADC'
+
+config JZ_TPANEL_AK4182
+	bool 'Select the AK4182 codec'
+
+config JZ_TPANEL_UCB1400
+	bool 'Select the UCB1400 codec'
+
+config JZ_TPANEL_WM9712
+	bool 'Select the WM9712 codec'
+
+endchoice
+
+config JZ_UDC_HOTPLUG
+	tristate 'JZ UDC hotplug driver support'
+	depends on JZCHAR
+
+config JZ_POWEROFF
+	tristate 'JZ board poweroff support' 
+	depends on JZCHAR
+
+config JZ_OW
+	tristate 'JZ One-wire bus support' 
+	depends on JZCHAR
+
+config JZ_TCSM
+	tristate 'JZ TCSM support' 
+	depends on JZCHAR
+
+config JZ_TSSI
+	tristate 'JZ MPEG2-TS interface support' 
+	depends on JZCHAR && (SOC_JZ4750 || SOC_JZ4750D)
+
+endmenu
+

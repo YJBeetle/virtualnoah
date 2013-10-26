@@ -1,0 +1,173 @@
+# UBIFS debugging configuration options, part of fs/ubifs/Kconfig
+
+config UBIFS_FS_DEBUG
+	bool "Enable debugging"
+	default n
+	depends on UBIFS_FS
+	select DEBUG_FS
+	select KALLSYMS_ALL
+	help
+	  This option enables UBIFS debugging.
+
+menu "Debugging messages"
+	depends on UBIFS_FS_DEBUG
+
+config UBIFS_FS_DEBUG_MSG_GEN
+	bool "General messages"
+	default n
+	help
+	  This option enables general debugging messages.
+
+config UBIFS_FS_DEBUG_MSG_JRN
+	bool "Journal messages"
+	default n
+	help
+	  This option enables detailed journal debugging messages.
+
+config UBIFS_FS_DEBUG_MSG_CMT
+	bool "Commit messages"
+	default n
+	help
+	  This option enables detailed journal commit debugging messages.
+
+config UBIFS_FS_DEBUG_MSG_BUDG
+	bool "Budgeting messages"
+	default n
+	help
+	  This option enables detailed budgeting debugging messages.
+
+config UBIFS_FS_DEBUG_MSG_LOG
+	bool "Log messages"
+	default n
+	help
+	  This option enables detailed journal log debugging messages.
+
+config UBIFS_FS_DEBUG_MSG_TNC
+	bool "Tree Node Cache (TNC) messages"
+	default n
+	help
+	  This option enables detailed TNC debugging messages.
+
+config UBIFS_FS_DEBUG_MSG_LP
+	bool "LEB properties (lprops) messages"
+	default n
+	help
+	  This option enables detailed lprops debugging messages.
+
+config UBIFS_FS_DEBUG_MSG_FIND
+	bool "LEB search messages"
+	default n
+	help
+	  This option enables detailed LEB search debugging messages.
+
+config UBIFS_FS_DEBUG_MSG_MNT
+	bool "Mount messages"
+	default n
+	help
+	  This option enables detailed mount debugging messages, including
+	  recovery messages.
+
+config UBIFS_FS_DEBUG_MSG_IO
+	bool "Input/output messages"
+	default n
+	help
+	  This option enables detailed I/O debugging messages.
+
+config UBIFS_FS_DEBUG_MSG_GC
+	bool "Garbage collection messages"
+	default n
+	help
+	  This option enables detailed garbage collection debugging messages.
+
+config UBIFS_FS_DEBUG_MSG_SCAN
+	bool "Scan messages"
+	default n
+	help
+	  This option enables detailed scan debugging messages.
+
+endmenu
+
+menu "Extra self-checks"
+	depends on UBIFS_FS_DEBUG
+
+config UBIFS_FS_DEBUG_CHK_MEMPRESS
+	bool "Create memory pressure"
+	default n
+	depends on UBIFS_FS_DEBUG
+	help
+	  This option causes kernel memory pressure in order to make TNC shrinker
+	  run.
+
+config UBIFS_FS_DEBUG_CHK_LPROPS
+	bool "Check LEB properties (lprops)"
+	default n
+	depends on UBIFS_FS_DEBUG
+	help
+	  This option enables a function which runs during journal commit and
+	  checks that the dirty and free space is correct for every LEB. Note,
+	  this option makes UBIFS scan whole media before each commit which is
+	  very slow.
+
+config UBIFS_FS_DEBUG_CHK_TNC
+	bool "Check Tree Node Cache (TNC)"
+	default n
+	depends on UBIFS_FS_DEBUG
+	help
+	  This option enables a function which runs after every
+	  TNC insert / delete and checks that the TNC nodes are correct.
+
+config UBIFS_FS_DEBUG_CHK_ORPH
+	bool "Check orphan area"
+	default n
+	depends on UBIFS_FS_DEBUG
+	help
+	  This option enables a function which runs during journal commit and
+	  checks that the orphan area is correct.
+
+config UBIFS_FS_DEBUG_CHK_IDX_SZ
+	bool "Check indexing tree size"
+	default n
+	depends on UBIFS_FS_DEBUG
+	help
+	  This option enables checking of the znode size accounting variables.
+
+config UBIFS_FS_DEBUG_CHK_OLD_IDX
+	bool "Check old indexing tree"
+	default n
+	depends on UBIFS_FS_DEBUG
+	help
+	  This option enables checking of the old indexing tree which must be
+	  intact to allow recovery in the event of an unclean unmount.
+
+config UBIFS_FS_DEBUG_CHK_OTHER
+	bool "Other checks"
+	default n
+	depends on UBIFS_FS_DEBUG
+	help
+	  This option enables different checks which are light-weight and do not
+	  affect file-system performance too much.
+
+endmenu
+
+config UBIFS_FS_DEBUG_FORCE_IN_THE_GAPS
+	bool "Force in-the-gaps commit method"
+	default n
+	depends on UBIFS_FS_DEBUG
+	help
+	  This option makes UBIFS use the in-the-gap commit method much more
+	  often than it is normally used (normally it is used only as fall-back
+	  method when there is no space to do the "normal" commit method). It
+	  is useful to run tests with this option enabled from time to time
+	  because it may reveal UBIFS bugs which would otherwise be really
+	  difficult to hit.
+
+config UBIFS_FS_DEBUG_TEST_RCVRY
+	bool "Simulate random device removal (recovery testing)"
+	default n
+	depends on UBIFS_FS_DEBUG
+	help
+	  This option provides the ability to test recovery from unclean
+	  unmounts. It causes UBIFS to simulate device removal.  At a some
+	  random point UBIFS will switch to "failure mode" after which all I/O
+	  operations will fail. UBIFS can then be unmounted and mounted again
+	  at which point "failure mode" is switched off and recovery ensues.
