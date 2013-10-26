@@ -1,0 +1,13 @@
+.svn
+CVS
+*.o
+*.orig
+*.rej
+*.bak
+*.d
+*.bin
+*.yaffs2
+pavo_nandflash
+
+
+

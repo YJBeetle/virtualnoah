@@ -1,0 +1,1 @@
+/home/yjbeetle/vn/VirtualNoah-NP1100/data/src/u-boot-1.1.6/nand_spl/nand_boot_jz4740.c

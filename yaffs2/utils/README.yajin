@@ -1,0 +1,5 @@
+This is the mkyaffs2image tool stripped from jz's linux patch.
+You can not use mkyaffs2image tool from www.yaffs.net directly.
+
+yajin
+2008-06-04

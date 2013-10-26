@@ -1,0 +1,11 @@
+This directory contains yaffs/yaffs2 tools to make the fs image.
+
+To build the tools, type 'make'.
+
+To make yaffs2 image, use next command:
+
+  $ mkyaffs2image 1 /myroot myroot.yaffs2
+
+To burn the yaffs2 image to the NAND, use next command:
+
+  $ nandwrite -a -o /dev/mtd0 myroot.yaffs2
