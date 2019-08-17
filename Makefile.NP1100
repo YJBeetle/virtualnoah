@@ -88,7 +88,7 @@ bin/pavo_nandflash : nandflash/pavo_nandflash
 fs/Serial :
 	mkdir -p downloads
 #	if [  ! -f  "downloads/Serial-NP1100_131026.tar.bz2" ]; then
-	wget http://virtualnoah.googlecode.com/files/Serial-NP1100_131026.tar.bz2 -O downloads/Serial-NP1100_131026.tar.bz2
+	wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/virtualnoah/Serial-NP1100_131026.tar.bz2 -O downloads/Serial-NP1100_131026.tar.bz2
 #	fi
 	tar jxvf downloads/Serial-NP1100_131026.tar.bz2 -C ./fs
 
@@ -98,35 +98,35 @@ fs/rootfs.yaffs2 : bin/mkyaffs2image ./fs/rootfs/
 ./fs/rootfs/ :
 	mkdir -p downloads
 #	if [  ! -f  "downloads/rootfs-NP1100_120730.tar.bz2" ]; then
-	wget http://virtualnoah.googlecode.com/files/rootfs-NP1100_120730.tar.bz2 -O downloads/rootfs-NP1100_120730.tar.bz2
+	wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/virtualnoah/rootfs-NP1100_120730.tar.bz2 -O downloads/rootfs-NP1100_120730.tar.bz2
 #	fi
 	tar jxvf downloads/rootfs-NP1100_120730.tar.bz2 -C ./fs
 
 fs/Settings.yaffs2 :
 	mkdir -p downloads
 #	if [  ! -f  "downloads/Settings-NP1100_120730.yaffs2.tar.bz2" ]; then
-	wget http://virtualnoah.googlecode.com/files/Settings-NP1100_120730.yaffs2.tar.bz2 -O downloads/Settings-NP1100_120730.yaffs2.tar.bz2
+	wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/virtualnoah/Settings-NP1100_120730.yaffs2.tar.bz2 -O downloads/Settings-NP1100_120730.yaffs2.tar.bz2
 #	fi
 	tar jxvf downloads/Settings-NP1100_120730.yaffs2.tar.bz2 -C ./fs
 
 fs/ProgramFS.yaffs2 :
 	mkdir -p downloads
 #	if [  ! -f  "downloads/ProgramFS-NP1100_120730.yaffs2.tar.bz2" ]; then
-	wget http://virtualnoah.googlecode.com/files/ProgramFS-NP1100_120730.yaffs2.tar.bz2 -O downloads/ProgramFS-NP1100_120730.yaffs2.tar.bz2
+	wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/virtualnoah/ProgramFS-NP1100_120730.yaffs2.tar.bz2 -O downloads/ProgramFS-NP1100_120730.yaffs2.tar.bz2
 #	fi
 	tar jxvf downloads/ProgramFS-NP1100_120730.yaffs2.tar.bz2 -C ./fs
 
 fs/DataFS.yaffs2 :
 	mkdir -p downloads
 #	if [  ! -f  "downloads/DataFS-NP1100_120730.yaffs2.tar.bz2" ]; then
-	wget http://virtualnoah.googlecode.com/files/DataFS-NP1100_120730.yaffs2.tar.bz2 -O downloads/DataFS-NP1100_120730.yaffs2.tar.bz2
+	wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/virtualnoah/DataFS-NP1100_120730.yaffs2.tar.bz2 -O downloads/DataFS-NP1100_120730.yaffs2.tar.bz2
 #	fi
 	tar jxvf downloads/DataFS-NP1100_120730.yaffs2.tar.bz2 -C ./fs
 
 fs/UsrFS.yaffs2 :
 	mkdir -p downloads
 #	if [  ! -f  "downloads/UsrFS-NP1100_120730.yaffs2.tar.bz2" ]; then
-	wget http://virtualnoah.googlecode.com/files/UsrFS-NP1100_120730.yaffs2.tar.bz2 -O downloads/UsrFS-NP1100_120730.yaffs2.tar.bz2
+	wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/virtualnoah/UsrFS-NP1100_120730.yaffs2.tar.bz2 -O downloads/UsrFS-NP1100_120730.yaffs2.tar.bz2
 #	fi
 	tar jxvf downloads/UsrFS-NP1100_120730.yaffs2.tar.bz2 -C ./fs
 
